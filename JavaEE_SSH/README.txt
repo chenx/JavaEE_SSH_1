@@ -1,4 +1,5 @@
 == About ==
+===========
 
 This package is an experiment to setup a JavaEE project using Struts/Spring/Hibernate. This project follows the tutorial of Chris Hulbert 3 years ago [1][2][3]. The original tutorial's source code on github [2] didn't include all the files in the entire Eclipse project, mostly missing the lib files, which you have to take a long time to download from the internet and put together. So here is a fully working version that includes everything. 
 
