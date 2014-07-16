@@ -1,0 +1,169 @@
+http://www.eclipse.org/forums/index.php/t/490005/
+
+------------------
+
+I have also experienced this problem with Eclipse Kepler running on Fedora 18. I executed these steps to create new Server in Eclipse:
+
+1. Click Server tab
+2. Click link to create new server
+3. Highlight Tomcat v7.0 Server
+
+Server host name is set to localhost
+Server name is blank
+
+Next> button is not active. Only Cancel button is available.
+
+If I selected Tomcat v6.0 Server, the server host name is localhost and server name is populated. Next> button is active.
+
+I have attempted to remove the runtime and add it again with no success. I found a Juno fix by removing some config files, but it did not work either. Is there another fix for Kepler?
+
+Kevin Schulke
+
+--------------------
+
+
+I've just posted and found the solution in stackoverflow (stackoverflow.com/questions/14791843/eclipse-add-tomcat-7-blank-server-name):
+
+Quote:
+
+    1. Close Eclipse
+    2. In {workspace-directory}/.metadata/.plugins/org.eclipse.core.runtime/.settings delete the following two files:
+    org.eclipse.wst.server.core.prefs
+    org.eclipse.jst.server.tomcat.core.prefs
+    3. Restart Eclipse
+
+
+
+regards
+falico
+
+--------------------
+
+eclipse complains /usr/share/tomecat7/conf not found.
+create a soft link and then it works:
+ln -s /usr/share/tomecat7/conf /var/lib/tomcat7/conf
+
+============================================
+
+http://lucasterdev.altervista.org/wordpress/2012/05/12/could-not-load-the-tomcat-server-configuration-at-serverstomcat-v7-0-server-at-localhost-config-the-configuration-may-be-corrupt-or-incomplet/
+
+
+	
+Could not load the Tomcat server configuration at /Servers/Tomcat v7.0 Server at localhost-config. The configuration may be corrupt or incomplete
+On May 12, 2012, in Eclipse, by lucasterdev
+
+You installed Tomcat v7 within eclipse using the “Add server” wizard and the  “download and install” button.
+
+You tried to start Tomcat and got the following error:
+
+    “Could not load the Tomcat server configuration at /Servers/Tomcat v7.0 Server at localhost-config. The configuration may be corrupt or incomplete”
+
+How to solve:
+
+    Close Eclipse
+    Copy all files from TOMCAT_7_HOME/conf to WORKSPACE_FOLDER/Servers/Tomcat v7.0 Server at localhost-config
+    Start Eclipse
+    Expand the Servers project, click on the Tomcat 7 project and hit F5
+    Start Tomcat from Eclipse
+
+=======================
+
+http://blog.chapagain.com.np/eclipse-could-not-load-the-tomcat-server-configuration-at-serverstomcat-v7-0-server-at-localhost-config/
+
+
+I found the solution on stackoverflow.
+
+It seems to be a bug in eclipse and here is the workaround to solve the bug:
+
+Note: I am using Ubuntu Linux.
+
+    - Close Eclipse
+    - Go to your Eclipse workspace directory
+    - Then go to directory .metadata/.plugins/org.eclipse.core.runtime/.settings
+    - In Ubuntu, I do it by: cd ~/workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings
+    - Delete the following two files:
+    - org.eclipse.wst.server.core.prefs
+    – org.eclipse.jst.server.tomcat.core.prefs
+    - You can do it by the following command:
+    rm org.eclipse.wst.server.core.prefs
+    rm org.eclipse.jst.server.tomcat.core.prefs
+    - Start Eclipse 
+
+If the above solution did not solve the problem then you can try the following solution which contains creating some softlinks along with deleting the above mentioned files.
+
+++++XC: Actually did this. Begin.++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+    - Run the following commands in terminal
+
+    cd ~/workspace/.metadata/.plugins/org.eclipse.core.runtime/.settings/
+    rm org.eclipse.jst.server.tomcat.core.prefs
+    rm org.eclipse.wst.server.core.prefs
+    cd /usr/share/tomcat7
+    sudo service tomcat7 stop
+    sudo update-rc.d tomcat7 disable
+    sudo ln -s /var/lib/tomcat7/conf conf
+    sudo ln -s /etc/tomcat7/policy.d/03catalina.policy conf/catalina.policy
+    sudo ln -s /var/log/tomcat7 log
+    sudo chmod -R 777 /usr/share/tomcat7/conf
+    sudo ln -s /var/lib/tomcat7/common common
+    sudo ln -s /var/lib/tomcat7/server server
+    sudo ln -s /var/lib/tomcat7/shared shared
+
+    - Restart eclipse
+    - In Project Explorer of Eclipse, you can see ‘Servers’. Right click and delete it.
+    - Re-add the Server (File -> New -> Other -> Server)
+    - Now your project on Eclipse should run fine. 
+++++XC: Actually did this. END. ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+=============================
+http://stackoverflow.com/questions/8040640/tomcat-startup-8080-address-already-in-use
+
+Tomcat startup, 8080 address already in use
+
+sudo lsof -i :8080
+sudo kill -15 <tomcat pid from previous command>
+
+=========================================================
+
+++++XC: Actually did this++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+http://sansatechnology.wordpress.com/2011/09/26/how-to-fix-eclipse-tomcat-not-starting-in-45-seconds/
+
+=========================================================
+Eclipse:
+
+server path: workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp0/wtpwebapps
+
+-- while general tomcat7 server is at:
+/var/lib/tomcat7/webapps/ROOT
+
+So the better way to make both running, is to let:
+the default general one running on 8080 and 8005,
+and let eclipse one running on 8081 and 8006.
+and both use different web root.
+
+==> well, after testing in eclipse is done, then, similar to export Android project,
+you export the Events as Events.war to the general root at /var/lib/tomcat7/webapps,
+there Events.war will be automatically unpacked to Events/ folder, and you can visit
+localhost:8080/Events/.
+
+If you rename Events.war to Events2.war, then soon Events2/ will appear, and Events/ is gone.
+
+So it seems that eclipse does it by:
+- start a second tomcat server, on different port (e.g., 8081 here)
+- after dev/test is done, export/deploy to production server.
+- if eclipse is closed, then the dev/test site (8081) is down.
+
+not bad. this way dev and production are separate.
+
+-------------
+extract a WAR file:
+jar -xvf *.war
+
+=========
+apache2 runs multiple processes. It's normal.
+apache uses 1 process handles 1 user request. Create a new process is slow, so multiple are started and waiting.
+
+Only 1 is owned by root, others spawn from this and are owned by www-data.
+
+=========
+Xorg process is the X GUI process. If kill it, will be forced logout.
+

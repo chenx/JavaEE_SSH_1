@@ -1,0 +1,38 @@
+create database ssh_tutorial;
+create USER 'ssh_user'@'localhost' identified by 'password';
+GRANT ALL ON ssh_tutorial.* TO 'ssh_user'@'localhost';
+
+
+CREATE TABLE event_person (
+  event_id int,
+  person_id int
+);
+ALTER TABLE event_person ADD PRIMARY KEY(event_id, person_id);
+
+CREATE TABLE events (
+  id int primary KEY AUTO_INCREMENT,
+  dt datetime NULL,
+  name nvarchar(50)
+);
+
+CREATE TABLE people (
+  id int PRIMARY KEY AUTO_INCREMENT,
+  name varchar(50) NOT NULL
+);
+
+
+insert into events(dt,name) values ('2009-12-31','New Years Eve');
+
+insert into events(dt,name) values ('2010-1-1','New Years Day');
+
+insert into people(name) values ('John Smith');
+
+insert into people(name) values ('Jane Doe');
+
+insert into event_person(event_id,person_id)
+select events.id, people.id
+from events,people
+where people.name='Jane Doe';
+
+
+

@@ -1,0 +1,91 @@
+This document summarizes all the lib download needed to set up this 
+JEE Struts/Spring/Hibernate project.
+
+-- installed libs:
+J2EE Preview
+- Tomcat7.0.52
+http://tomcat.apache.org/download-70.cgi
+installed by: sudo apt-get install tomcat7
+
+- Sitemesh for a master page:
+http://wiki.sitemesh.org/wiki/display/sitemesh/Home
+http://wiki.sitemesh.org/wiki/display/sitemesh/Download
+Download: sitemesh-2.4.2.jar
+
+- JSTL
+http://download.java.net/maven/1/jstl/jars/
+jstl-1.2.jar
+
+- Struts 2
+http://struts.apache.org/download.cgi
+struts-2.3.16.3-apps.zip
+use jars from struts2-blank/WEB-INFO/lib
+
+- Logging: Log4j
+http://logging.apache.org/log4j/1.2/download.html
+log4j-1.2.17.jar
+(also can use the most recent one:
+http://logging.apache.org/log4j/2.x/download.html
+include:
+log4j-api-2.0-rc2.jar
+log4j-core-2.0-rc2.jar
+log4j-1.2-api-2.0-rc2.jar
+But this is more troublesome of course.
+)
+
+- LSF4J: Used by Hibernate to output to logger lib log4j
+http://www.slf4j.org/download.html
+slf4j-api-1.7.7.jar
+slf4j-log4j12-1.7.7.jar
+
+- Apache Commons Logging
+http://commons.apache.org/proper/commons-logging/download_logging.cgi
+commons-logging-1.2.jar
+
+- MySql
+
+- Spring
+http://olex.openlogic.com/packages/spring/3.0.0
+Spring 3.0.0 Binary
+(have to use this to be compatible with hibernate3
+although the most recent Spring 4 is here:
+http://repo.spring.io/release/org/springframework/spring/
+)
+
+- struts 2
+struts2-spring-plugin-2.1.8.1.jar
+from struts-2.3.16.3-apps.zip downloaded earlier
+
+- AOP Alliance
+http://sourceforge.net/projects/aopalliance/files/aopalliance/1.0/aopalliance.zip/download
+
+- cglib
+http://sourceforge.net/projects/cglib/files/
+cglib-nodep-3.1.jar
+
+- Hibernate
+(have to use the following earlier versions, although the most
+recent version is 4.3.5 at http://hibernate.org/orm/downloads/)
+hibernate-distribution-3.3.2.GA
+From http://sourceforge.net/projects/hibernate/files/hibernate3/
+
+hibernate3.jar
+\lib\required\*.jar
+\lib\optional\c3po/c3p0-0.9.1.jar
+
+hibernate-annotations-3.4.0.GA
+From http://sourceforge.net/projects/hibernate/files/hibernate-annotations/
+
+hibernate-annotations.jar
+\lib\ejb3-persistence.jar, hibernate-commons-annotations.jar, hibernate-core.jar
+
+- Jtds jdbc driver for MSSQL.
+http://sourceforge.net/projects/jtds/files/
+jtds-1.3.1.jar
+(added but not used, since I use MySQL here)
+
+- MySQL Connector/J 5.1.31, platform independent version
+http://dev.mysql.com/downloads/connector/j/
+mysql-connector-java-5.1.31-bin.jar
+
+
