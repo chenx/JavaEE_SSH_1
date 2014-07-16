@@ -2,7 +2,7 @@
 
 This package is an experiment to setup a JavaEE project using Struts/Spring/Hibernate. This project follows the tutorial of Chris Hulbert 3 years ago [1][2][3]. The original tutorial's source code on github [2] didn't include all the files in the entire Eclipse project, mostly missing the lib files, which you have to take a long time to download from the internet and put together. So here is a fully working version that includes everything. 
 
-Some of the libraries inevitably become out-dated since 2011, especially the Spring and Hibernate libraries, and old versions have to be used here for this project to work without much tweaking. But for other libraries, including struts, you can use the newest version and it still works fine. Anyways, this is a starting point to build a JavaEE SSH web application.
+Some of the libraries inevitably become out-dated since 2011, especially the Spring and Hibernate libraries, yet old versions have to be used here for this project to work without much tweaking. But for other libraries, including struts, you can use the newest version and it still works fine. Anyways, this is a starting point to build a JavaEE SSH web application.
 
 X.C.
 7/15/2014
